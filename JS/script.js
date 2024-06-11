@@ -8,7 +8,7 @@ function writeToPage(text, yes){
     place.classList.add("result");
     const answer = document.createElement("p");
 
-    if(yes){
+    if(yes === 1){
         answer.textContent = "Valid US number: " + text;
     } else {
         answer.textContent = "Invalid US number: " + text;
@@ -22,7 +22,8 @@ function writeToPage(text, yes){
 function checkPhoneNumber(phoneNumber) {
     let checkNumber = "";
     let mark = 0;
-    let numCode = phoneNumber.slice(0, phoneNumber.indexOf(" ")).toInteger;
+    let numCode = parseInt(phoneNumber.slice(0, phoneNumber.indexOf(" ")));
+    let numCode2 = parseInt(phoneNumber.slice(0, phoneNumber.indexOf("(")));
     for(let i = 0; i < phoneNumber.length; i++) {
         if(phoneNumber[i] >= '0' && phoneNumber[i] <= '9'){
             checkNumber += phoneNumber[i];
@@ -35,17 +36,46 @@ function checkPhoneNumber(phoneNumber) {
         }
     }
 
-    if(numCode != 1){
-        writeToPage(phoneNumber, false);
-        return;
+    console.log(checkNumber);
+    console.log(numCode);
+    console.log(numCode2);
+
+    //Check phone code number within spaces
+    if(phoneNumber.indexOf(" ") == 1 || phoneNumber.indexOf(" ") == 2){
+        if(numCode != 1){
+            writeToPage(phoneNumber, false);
+            return;
+        }
+        if(checkLength(checkNumber) && (mark === 2 || mark === 0) && (!phoneNumber.startsWith("(") && !phoneNumber.endsWith(")"))){
+            writeToPage(phoneNumber, 1);
+            return;
+        } else {
+            writeToPage(phoneNumber, 0);
+            return;
+        }
     }
 
-    if(checkLength(checkNumber) && (mark === 2 || mark === 0) &&
-        (!phoneNumber.startsWith("(") && phoneNumber.endsWith(")"))){
-        writeToPage(phoneNumber, true);
+    //Check phone code number within parenthesis
+    if(phoneNumber.indexOf("(") == 1 || phoneNumber.indexOf("(") == 2){
+        if(numCode2 != 1){
+            writeToPage(phoneNumber, false);
+            return;
+        }
+        if(checkLength(checkNumber) && (mark === 2 || mark === 0) && (!phoneNumber.startsWith("(") && !phoneNumber.endsWith(")"))){
+            writeToPage(phoneNumber, 1);
+            return;
+        } else {
+            writeToPage(phoneNumber, 0);
+            return;
+        }
+    }
+
+    //Check phone number 
+    if(checkLength(checkNumber) && (mark === 2 || mark === 0) && (checkNumber[0] == 1 || checkNumber[0] == 5)){
+        writeToPage(phoneNumber, 1);
         return;
     } else {
-        writeToPage(phoneNumber, false);
+        writeToPage(phoneNumber, 0);
         return;
     }
 
@@ -53,12 +83,12 @@ function checkPhoneNumber(phoneNumber) {
 
 document.getElementById('check-btn').addEventListener('click', function() {
     const userInput = document.getElementById('user-input').value;
-    userInput.innerHTML = "";
     if(userInput === "") {
         alert('Please provide a phone number');
     } else {
         checkPhoneNumber(userInput);
     }
+    document.getElementById('user-input').value = "";
 });
 
 document.getElementById('clear-btn').addEventListener('click', function() {
