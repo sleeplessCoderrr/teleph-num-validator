@@ -1,14 +1,10 @@
 :root{
     --dark: #17181E;
     --blue: #849BEB;
-    --lightBlue: #C4D5FC;
     --green: #25D952;
     --light: #F0F0F1;
     --gray: #6B6B7C;
     --dimmedLight: #BBBBBB;
-    --pink: #DDC2D4;
-    --content: #1E1F27;
-    --hover-color: rgba(255, 141, 141, 0.15);
     --green-hover: rgba(37, 217, 82, 0.3);
 }
 
