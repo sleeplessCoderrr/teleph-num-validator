@@ -36,10 +36,6 @@ function checkPhoneNumber(phoneNumber) {
         }
     }
 
-    console.log(checkNumber);
-    console.log(numCode);
-    console.log(numCode2);
-
     //Check phone code number within spaces
     if(phoneNumber.indexOf(" ") == 1 || phoneNumber.indexOf(" ") == 2){
         if(numCode != 1){
